@@ -1,0 +1,222 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Prepare_Data" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_RawReportTable" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="out_FinalReporTable" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="out_Tot_Current" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_0_30" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_31_60" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_61_90" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_91_120" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_Over_120" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_121_180" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_181_365" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Tot_Over_365" Type="OutArgument(x:Double)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>324,748</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="18">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="16">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Generate Top 10 Table(DT2)" sap:VirtualizedContainerService.HintSize="304,688" sap2010:WorkflowViewState.IdRef="Sequence_26">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="DT2STRI" />
+      <Variable x:TypeArguments="sd:DataTable" Name="FinalReport" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="Top10_Current" />
+      <Variable x:TypeArguments="sd:DataTable" Name="RawReportTable" />
+      <Variable x:TypeArguments="sd:DataTable" Name="TestTable" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_53">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataTable">[RawReportTable]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataTable">[in_RawReportTable]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Sequence DisplayName="Add summary columns" sap:VirtualizedContainerService.HintSize="242,387" sap2010:WorkflowViewState.IdRef="Sequence_33">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Add Over 120 column" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="Invokes/Generic/Add Column.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_Table">[RawReportTable]</InOutArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">Over 120</InArgument>
+          <InArgument x:TypeArguments="x:Int32" x:Key="in_ColumnIndex">6</InArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:InvokeWorkflowFile>
+      <ui:AddDataColumn x:TypeArguments="x:Double" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="Total Due" DataTable="[RawReportTable]" DisplayName="Add Data Column" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_2" />
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Calculate Over 120 column values" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="Invokes/Generic/Fill Sum Column Values.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="s:String[]" x:Key="in_ColumnsToSum">[in_Config("Over 120 Columns").tostring.split(";"c)]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ResultColumn">Over 120</InArgument>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_Table">[RawReportTable]</InOutArgument>
+          <InArgument x:TypeArguments="x:Boolean" x:Key="in_SetToZero">[convert.ToBoolean(in_Config("Set Over 120 to 0"))]</InArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Calculate Total Due column values" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="Invokes/Generic/Fill Sum Column Values.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="s:String[]" x:Key="in_ColumnsToSum">[in_Config("Tot Over Due Columns").tostring.split(";"c)]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ResultColumn">Total Due</InArgument>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_Table">[RawReportTable]</InOutArgument>
+          <InArgument x:TypeArguments="x:Boolean" x:Key="in_SetToZero">False</InArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <Sequence DisplayName="Assign Totals Output" sap:VirtualizedContainerService.HintSize="262,66" sap2010:WorkflowViewState.IdRef="Sequence_32">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">Current</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_Current]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">0-30</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_0_30]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">31-60</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_31_60]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">61-90</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_61_90]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">91-120</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_91_120]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">Over 120</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_Over_120]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">121-180</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_121_180]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">181-365</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_181_365]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Sum Column workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="Invokes/Generic/Calculate Column Sum.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DataTable">[RawReportTable]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_ColumnName">Over 365</InArgument>
+          <OutArgument x:TypeArguments="x:Double" x:Key="out_Value">[out_Tot_Over_365]</OutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <ui:SortDataTable ColumnIndex="{x:Null}" DataColumn="{x:Null}" ColumnName="Total Due" DataTable="[RawReportTable]" DisplayName="Sort Data Table" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="SortDataTable_1" Order="Decending" OutputDataTable="[RawReportTable]" SortOrder="Descending" />
+    <Assign DisplayName="Take Top 10 Overdue rows" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_29">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataTable">[FinalReport]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataTable">[RawReportTable.AsEnumerable().Take(10).CopyToDataTable()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:RemoveDataColumn Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="Total Due" DataTable="[FinalReport]" DisplayName="Remove Data Column" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="RemoveDataColumn_1" />
+    <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_54">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataTable">[out_FinalReporTable]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataTable">[FinalReport]</InArgument>
+      </Assign.Value>
+    </Assign>
+  </Sequence>
+</Activity>
